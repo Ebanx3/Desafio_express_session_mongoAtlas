@@ -1,0 +1,32 @@
+html
+    head 
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta( name="viewport" content="width=device-width, initial-scale=1.0")
+        title Sessions and Cookies
+        link(rel="stylesheet", href="../style.css")
+    body 
+        h1.titulo Desafio Sessions & cookies 
+        h2.subtitulo Curso Backend - CoderHouse 
+        main 
+            .container
+                if(!info.loggedIn)
+                    button(id="register" class="btn-pestania") Registro 
+                    button(id="login" class="btn-pestania") Login
+                    include formRegister
+                    include formLogin
+                else 
+                    h2=`Bienvenido ${info.username}`
+                    span Mostrar Contenido de página
+                    form(id="formLogout" method="POST" action="/api/logout")
+                        button(type="submit" id="logout") Logout
+                if(info.admin)
+                    .panelAdmin 
+                        h2 Panel admin
+                        h2 Usuarios
+                        each user in info.users 
+                            ul.listUser
+                                li=`Usuario     ${user.username}` 
+                                li=`Email       ${user.email}` 
+                                li=`Contraseña  ${user.password}`
+        script(src="../index.js") 
