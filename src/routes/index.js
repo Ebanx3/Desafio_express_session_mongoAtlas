@@ -1,90 +1,78 @@
 import { Router } from 'express';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import config from '../config';
-
-const ttlSeconds = 60;
-
-const StoreOptions = {
-    store: MongoStore.create({
-        mongoUrl: config.URL_MONGOATLAS,
-        crypto:{
-            secret: 'squirrel'
-        }
-    }),
-    secret: 'secretCode',
-    resave:false,
-    saveUninitialized: false,
-    cookie:{
-        maxAge: ttlSeconds * 1000.
-    },
-};
+import passport from 'passport';
 
 const router = Router();
-router.use(cookieParser());
-router.use(session(StoreOptions));
 
-
-const users = [
-    {
-        username: 'admin',
-        email: 'admin@gmail.com',
-        password:'admin',
-        admin: true,
-    },
-];
-
-router.get('/',(req,res)=> {
-    const info = {
+router.get('/', (req, res) => {
+    const inf = {
         loggedIn: false
     }
-    if(req.session.info?.loggedIn){
-        info.loggedIn = true;
-        info.username = req.session.info.username;
-        if(req.session.info.admin){
-            info.admin = true;
-            info.users = users;
-        }
-    
+    if (req.session.info?.loggedIn) { //SI AL RECARGAR ESTO ES TRUE, LE AVISA A PUG QUE ESTÁ LOGUEADO Y LE ENVIA EL EMAIL
+        inf.loggedIn = true;
+        inf.email = req.session.passport?.user.email;
     }
-    console.log(req.session)
-    res.render('index', {info})
+    else if (req.session.info?.emailAlreadyUsed) { //SI AL RECARGAR ESTO ES TRUE, LE AVISA A PUG PARA QUE TIRE ERROR DE EMAIL YA USADO
+        inf.emailAlreadyUsed = true;
+        req.session.info.emailAlreadyUsed = false;
+    }
+    else if (req.session.info?.userRegistered) { //SI AL RECARGAR ESTO ES TRUE, LE AVISA A PUG QUE EL REGISTRO SI HIZO DE FORMA CORRECTA
+        inf.userRegistered = true;
+        req.session.info.userRegistered = false;
+    }
+    else if(req.session.info?.errLogginIn){  //SI AL RECARGAR ESTO ES TRUE, LE AVISA A PUG QUE EL CORREO O PASS NO SOS CORRECTAS
+        inf.errLogginIn = true;
+        req.session.info.errLogginIn = false;
+    }
+    res.render('index', { inf })
 })
 
-router.post('/login',(req,res)=>{
-    console.log(req.body);
-    const indice = users.findIndex(element => element.username == req.body.username);
-    if(indice < 0){
-        return res.redirect('/api');
-    }
-    if(!users[indice].password == req.body.password){
-        return res.redirect('/api');
-    }
+const passportOptions = { badRequestMessage: 'wrong email or password' };
+
+router.post('/login', passport.authenticate('login', passportOptions), function (req, res) { 
     req.session.info = {
         loggedIn: true,
-        contador: 1,
-        username: users[indice].username,
-        admin: users[indice].admin,
     }
-    console.log(req.session)
+    console.log('req.session',req.session)
     res.redirect('/api');
 });
 
-router.post('/register',(req,res)=>{
-    console.log(req.body);
-    const newUser = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        admin: false,
-    }
-    users.push(newUser);
-    console.log(users)
-    res.redirect('/api');
+// NO ME FUNCIONAN  SERIALIZE Y DESERIALIZE CON ESTO
+// router.post('/login', function (req,res,next)  {
+//      passport.authenticate('login',passportOptions, (err, user, info) =>{
+//         if(user) {
+//             req.session.info = {
+//                 loggedIn: true,
+//             }
+//             return res.redirect('/api');
+//         }
+//         req.session.info={
+//             errLogginIn: true
+//         }
+//         res.redirect('/api');
+//     })(req,res,next);
+// });
+
+router.post('/signup', async (req, res, next) => {
+    passport.authenticate('signup', passportOptions, (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+            if (info.message == 'Email already registered') {
+                req.session.info = {
+                    emailAlreadyUsed: true,
+                }
+                return res.redirect('/api');
+            }
+            return res.status(401).json(info)
+        };
+        req.session.info = {
+            userRegistered: true,
+        }
+        res.redirect('/api');
+    })(req, res, next);
+
 });
 
-router.post('/logout',(req,res)=>{
+router.post('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/api')
 })

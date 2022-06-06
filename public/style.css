@@ -1,8 +1,14 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
 main{
-    background-color: rgb(228, 228, 228);
+    background-color: rgba(14, 226, 241, 0.418);
     width: 50%;
+    height:220px;
     padding: 20px;
     margin: auto;
+    border-radius: 10%;
 }
 
 .titulo{
@@ -23,14 +29,21 @@ form{
 
 label{
     margin: 5px 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+    
 }
 
 input{
     margin: 5px 0;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-bottom: rgb(0, 0, 0) 2px solid;
+    text-align: center;
+    color: rgb(18, 6, 128);
 }
 
 button{
-    margin:18px 0;
     margin: auto;
 }
 
@@ -38,7 +51,6 @@ button{
     width: 44%;
     border:none;
     padding: 5px;
-    border-radius: 10%;
     margin: 0 2% ;
 }
 
@@ -55,3 +67,11 @@ button{
 .panelAdmin ul{
     list-style: none;
 }
+
+#emailUsed {
+    color: rgb(112, 14, 14);
+    font-size: .9rem;
+    font-weight: bold;
+    text-align: end;
+}
+

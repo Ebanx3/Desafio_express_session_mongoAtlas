@@ -1,6 +1,12 @@
-form(id="formLogin" method="POST" action="/api/login" class="hidden") 
-    label(for="username") Nombre de usuario: 
-    input(type="text" id="username" name="username")
+form(id="formLogin" method="POST" action="/api/login") 
+    label(for="email") Email: 
+    input(type="email" id="email" name="email")
     label(for="password") Contraseña;
     input(type="password" id="password" name="password")
     button(type="submit") Login
+    if(inf.emailAlreadyUsed)
+        p#emailUsed Email ya en uso
+    if(inf.userRegistered)
+        p#emailUsed Registro exitoso
+    if(inf.errLogginIn)
+        p#emailUsed Email / Password inconrrecto

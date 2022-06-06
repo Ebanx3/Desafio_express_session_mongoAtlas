@@ -3,30 +3,24 @@ html
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta( name="viewport" content="width=device-width, initial-scale=1.0")
-        title Sessions and Cookies
+        title Inicio de sesion
         link(rel="stylesheet", href="../style.css")
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     body 
-        h1.titulo Desafio Sessions & cookies 
-        h2.subtitulo Curso Backend - CoderHouse 
+        h1.titulo Desafio INICIO DE SESIÓN
+        h2.subtitulo Curso Backend - CoderHouse
         main 
             .container
-                if(!info.loggedIn)
+                if(!inf.loggedIn)
                     button(id="register" class="btn-pestania") Registro 
                     button(id="login" class="btn-pestania") Login
                     include formRegister
                     include formLogin
                 else 
-                    h2=`Bienvenido ${info.username}`
+                    h2=`Bienvenido ${inf.email}`
                     span Mostrar Contenido de página
                     form(id="formLogout" method="POST" action="/api/logout")
                         button(type="submit" id="logout") Logout
-                if(info.admin)
-                    .panelAdmin 
-                        h2 Panel admin
-                        h2 Usuarios
-                        each user in info.users 
-                            ul.listUser
-                                li=`Usuario     ${user.username}` 
-                                li=`Email       ${user.email}` 
-                                li=`Contraseña  ${user.password}`
         script(src="../index.js") 

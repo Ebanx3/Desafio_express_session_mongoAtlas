@@ -1,8 +1,6 @@
-form(id="formRegister" method="POST" action="/api/register")
-    label(for="username") Nombre de usuario: 
-    input(type="text" id="username" name="username" required)
+form(id="formRegister" method="POST" action="/api/signup" class="hidden")
+    label(for="email") Email: 
+    input(type="email" id="email" name="email" required)
     label(for="password") Contraseña;
     input(type="password" id="password" name="password" required)
-    label(for="email") Email;
-    input(type="email" id="email" name="email" required)
     button(type="submit") Registrarse

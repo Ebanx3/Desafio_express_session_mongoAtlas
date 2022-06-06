@@ -13,3 +13,5 @@ btnLogin.onclick = function showFormL () {
     formRegister.setAttribute('class','hidden');
 }
 
+const emailUsed = document.getElementById('emailUsed');
+setTimeout(()=>emailUsed.remove(),3000);
