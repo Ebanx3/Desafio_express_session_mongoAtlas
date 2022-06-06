@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
     res.render('index', { inf })
 })
 
-const passportOptions = { badRequestMessage: 'wrong email or password' };
+const passportOptions = { badRequestMessage: 'wrong email or password' ,failureRedirect:'/api'};
 
 router.post('/login', passport.authenticate('login', passportOptions), function (req, res) { 
     req.session.info = {
@@ -35,22 +35,6 @@ router.post('/login', passport.authenticate('login', passportOptions), function 
     console.log('req.session',req.session)
     res.redirect('/api');
 });
-
-// NO ME FUNCIONAN  SERIALIZE Y DESERIALIZE CON ESTO
-// router.post('/login', function (req,res,next)  {
-//      passport.authenticate('login',passportOptions, (err, user, info) =>{
-//         if(user) {
-//             req.session.info = {
-//                 loggedIn: true,
-//             }
-//             return res.redirect('/api');
-//         }
-//         req.session.info={
-//             errLogginIn: true
-//         }
-//         res.redirect('/api');
-//     })(req,res,next);
-// });
 
 router.post('/signup', async (req, res, next) => {
     passport.authenticate('signup', passportOptions, (err, user, info) => {

@@ -14,14 +14,12 @@ const login = async (req, username, password, done) => {
         return done(null, false, { message: 'Invalid email or password' });
     }
     const samePass = await user.isValidPassword(password);
-    console.log(samePass)
     if(!samePass){
         req.session.info = {
             errLogginIn: true
         }
         return done(null, false, { message: 'Invalid email or password' });
     }
-    console.log('login function ok!');
     return done(null, user);
 };
 
