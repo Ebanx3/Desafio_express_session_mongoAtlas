@@ -4,6 +4,7 @@ import path from 'path';
 import session from 'express-session';
 import passport from 'passport';
 import { loginFunc, signUpFunc } from './auth';
+import processInfoFunc from './processInfo';
 
 const app = express();
 
@@ -35,5 +36,5 @@ app.set('views', viewsPath);
 app.use(express.static('public'));
 
 app.use('/api', mainRouter);
-
+app.get('/info', processInfoFunc)
 export default app;

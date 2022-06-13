@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
+import randoms from './randoms';
 
 const router = Router();
 
@@ -32,7 +33,6 @@ router.post('/login', passport.authenticate('login', passportOptions), function 
     req.session.info = {
         loggedIn: true,
     }
-    console.log('req.session',req.session)
     res.redirect('/api');
 });
 
@@ -61,5 +61,8 @@ router.post('/logout', (req, res) => {
     res.redirect('/api')
 })
 
+
+
+router.get('/randoms',randoms);
 
 export default router;

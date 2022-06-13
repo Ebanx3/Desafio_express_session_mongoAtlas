@@ -1,0 +1,31 @@
+html
+    head 
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta( name="viewport" content="width=device-width, initial-scale=1.0")
+        title Inicio de sesion
+        link(rel="stylesheet", href="../style.css")
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    body 
+        h1 Vista process.Info 
+        div.contenedor
+            h2 Argumentos de entrada
+            if (info.cantElementosEntrada > 1)    
+                each p in info.argumentosDeEntrada 
+                    h3=p
+            else
+                h3 No se ingresaron argumentos en la entrada
+            h2 Path de ejecución 
+            h3=info.pathEjecucion 
+            h2 Sistema operativo 
+            h3=info.sistemaOperativo 
+            h2 ID de proceso 
+            h3=info.procesoId 
+            h2 Versión de node 
+            h3=info.nodeVersion 
+            h2 Carpeta del proyecto 
+            h3= info.carpetaProyecto 
+            h2 Memoria total reservada
+            h3=info.memoriaReservada.rss
