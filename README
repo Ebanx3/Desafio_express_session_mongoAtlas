@@ -1,0 +1,39 @@
+// Ejecutar con forever
+// npm run prod:forever -- -p=<puerto> -m <si modo Cluster True, false por defecto>
+// npm run stop:forever
+
+// Ejecutar con pm2
+// npm run prod:pm2 -- -p=<puerto> 
+// npm run stop:pm2
+
+// CONFIGURACIÓN EN NGINX.CONF
+// events{
+
+// }
+
+// http {
+
+//     include mime.types;
+
+//     upstream backend {
+//         server localhost:8082;
+//         server localhost:8083;
+//         server localhost:8084;
+//         server localhost:8085;
+//     }
+
+//     server {
+//     listen 3000;
+//     server_name nginx-handbook.test;
+
+//     location /api/randoms {
+//         proxy_pass http://localhost:8081;
+//     }
+ 
+
+//     location / {
+//         proxy_pass http://backend;
+//     }
+
+//    }
+// } 

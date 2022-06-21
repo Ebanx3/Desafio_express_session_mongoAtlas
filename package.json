@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "transpile": "babel src --out-dir dist",
     "start": "node ./dist/index.js",
+    "prod:forever":"forever start dist/index.js",
+    "stop:forever":"forever stopall",
+    "prod:pm2":"pm2 start ecosystem.config.js",
+    "stop:pm2":"pm2 delete all",
     "dev": "nodemon --exec babel-node ./src/index.js"
   },
   "keywords": [],

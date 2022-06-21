@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'pug');
-const viewsPath = path.resolve(__dirname, '../views');
+const viewsPath = path.resolve(__dirname, '../../views');
 app.set('views', viewsPath);
 
 app.use(express.static('public'));
