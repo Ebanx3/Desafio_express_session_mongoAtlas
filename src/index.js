@@ -38,6 +38,6 @@ if(modoCluster && cluster.isMaster){
 }
 
 else{
-    init(args.port);
+    init(process.env.PORT);
     
 };
