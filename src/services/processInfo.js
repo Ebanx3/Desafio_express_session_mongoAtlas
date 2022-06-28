@@ -15,8 +15,13 @@ const processInfoFunc = (req,res) =>{
         carpetaProyecto: process.cwd(),
         memoriaReservada: process.memoryUsage(),
         cantProcesadores: os.cpus().length,
-    }
-    res.render('pInfo',{info})
+    };
+    // console.log('Mensaje usando console.log para probar artillery y autocannon',info);
+    // console.log('Mensaje usando console.log para probar artillery y autocannon',info);
+    // console.log('Mensaje usando console.log para probar artillery y autocannon',info);
+    // console.log('Mensaje usando console.log para probar artillery y autocannon',info);
+    // console.log('Mensaje usando console.log para probar artillery y autocannon',info);
+    res.render('pInfo',{info});
 }
 
 export default processInfoFunc;

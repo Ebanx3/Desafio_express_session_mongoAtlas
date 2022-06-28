@@ -3,6 +3,7 @@ import server from './services/server';
 import minimist from 'minimist';
 import os from 'os';
 import cluster from 'cluster';
+import { middlewareErrorLogger } from './services/logger';
 
 const numCPUs = os.cpus().length;
 
@@ -19,9 +20,14 @@ const optionalArgsObject = {
 const args = minimist(process.argv, optionalArgsObject);
 
 const init = (port) =>{
-    server.listen(port, () => console.log('Server up!, listening at port', port,' // Process pid',process.pid));
-    ConnectToDDBB();
-    console.log('Connected to database');
+    try {
+        server.listen(port, () => console.log('Server up!, listening at port', port,' // Process pid',process.pid));
+        ConnectToDDBB();
+        console.log('Connected to database');
+    }
+    catch(err){
+        middlewareErrorLogger(err);
+    }
 }
 
 const modoCluster = args.m;
@@ -38,6 +44,6 @@ if(modoCluster && cluster.isMaster){
 }
 
 else{
-    init(process.env.PORT);
+    init(process.env.PORT || 8080);
     
 };

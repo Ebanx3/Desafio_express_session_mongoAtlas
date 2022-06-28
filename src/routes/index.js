@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
+import { middlewareErrorLogger } from '../services/logger';
 import randoms from './randoms';
 
 const router = Router();
@@ -38,7 +39,10 @@ router.post('/login', passport.authenticate('login', passportOptions), function 
 
 router.post('/signup', async (req, res, next) => {
     passport.authenticate('signup', passportOptions, (err, user, info) => {
-        if (err) return next(err);
+        if (err) {
+            middlewareErrorLogger(err);
+            return next(err);
+        }
         if (!user) {
             if (info.message == 'Email already registered') {
                 req.session.info = {

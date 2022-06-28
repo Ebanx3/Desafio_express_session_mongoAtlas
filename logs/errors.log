@@ -1,0 +1,1 @@
+[2022-06-27T10:49:56.078] [ERROR] errors - Error: E11000 duplicate key error collection: myFirstDatabase.users index: email_1 dup key: { email: "esteban2santos@gmail.com" }

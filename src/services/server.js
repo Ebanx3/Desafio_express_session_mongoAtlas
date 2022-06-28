@@ -5,6 +5,9 @@ import session from 'express-session';
 import passport from 'passport';
 import { loginFunc, signUpFunc } from './auth';
 import processInfoFunc from './processInfo';
+import compression from 'compression';
+import { middlewareLogger, middlewareUndefinedPath } from './logger';
+
 
 const app = express();
 
@@ -35,6 +38,8 @@ app.set('views', viewsPath);
 
 app.use(express.static('public'));
 
-app.use('/api', mainRouter);
-app.get('/info', processInfoFunc)
+app.use('/api',middlewareLogger,mainRouter);
+app.get('/info', middlewareLogger ,compression(),processInfoFunc);
+
+app.use(middlewareUndefinedPath);
 export default app;

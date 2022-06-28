@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { UserModel } from '../models/user';
+import { middlewareErrorLogger } from './logger';
 
 const strategyOptions = {
     usernameField: 'email',
@@ -29,7 +30,10 @@ const signup = async (req, username, password, done) => {
         return done(null, newUser);
     }
     catch (err) {
-        if (err.code == 11000) return done(null, false, { message: 'Email already registered' });
+        middlewareErrorLogger(err);
+        if (err.code == 11000) {
+            return done(null, false, { message: 'Email already registered' });
+        }
         return done(null, false, { message: 'Unexpected error' })
     }
 };
